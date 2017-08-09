@@ -1,0 +1,13 @@
+<div class="container-fuild" id="header">
+  <div class="row">
+  	<div class="col-6">
+  		<h1>Welcome to {{appName}}!</h1>
+  	</div>
+  	<div class="col-6">
+  		<ul>
+  			<li><a routerLink="/" [ngClass]="{'active':  activeRoute === '/'}">Home</a></li>
+  			<li><a routerLink="/zipcodes" [ngClass]="{'active':  activeRoute === '/zipcode'}">Zipcodes</a></li>
+  		</ul>
+  	</div>
+  </div>
+</div>

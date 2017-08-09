@@ -1,1 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import './app/styles/posts.css';
+@import url('https://fonts.googleapis.com/css?family=Roboto+Slab:300,400,700|Roboto:400,700');
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+body h1,
+body h2, 
+body h3, 
+body h4 {
+  font-family: 'Roboto Slab', sans-serif;
+  color: #0489B1;
+}
+
+ul{
+	list-style: none;
+}
+
+ul li{
+	padding: 5px;
+	float: left;
+}

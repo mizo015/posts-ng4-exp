@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { PostsService } from '../../services/posts.service';
 
-import 'rxjs/add/operator/add'
+import { Post } from '../../interface/post';
+
 
 @Component({
   selector: 'app-posts',
@@ -11,17 +12,18 @@ import 'rxjs/add/operator/add'
 })
 export class PostsComponent implements OnInit {
 	loading:boolean; 
-	
+	posts:Post[];
+
 	constructor(private postsService:PostsService) { }
 
 	ngOnInit() {
 		this.loading = true;
 		
 		this.postsService.getPosts()
-			.then((res) => {
-				console.log(res)
+			.subscribe(posts => {
+				console.log(posts);
+				this.posts = posts
 			})
-
 	}
 
 }

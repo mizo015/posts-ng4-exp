@@ -1,3 +1,13 @@
-<p>
-  {{greeting}}posts works!
-</p>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+        <ngb-panel *ngFor="let post of posts" title="{{post.title}}">
+          <ng-template ngbPanelContent>
+            {{post.body}}
+          </ng-template>
+        </ngb-panel>
+      </ngb-accordion>
+    </div>
+  </div>
+</div>
