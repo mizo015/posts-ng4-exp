@@ -4,22 +4,25 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto+Slab:300,400,700|Roboto:400,700');
 
 body {
+  background: #efefef;
   font-family: 'Roboto', sans-serif;
 }
 
 body h1,
-body h2, 
-body h3, 
+body h2,
+body h3,
 body h4 {
   font-family: 'Roboto Slab', sans-serif;
   color: #0489B1;
 }
 
-ul{
-	list-style: none;
+.no-gutters {
+  margin-right: 0;
+  margin-left: 0;
 }
 
-ul li{
-	padding: 5px;
-	float: left;
+.no-gutters>.col,
+.no-gutters>[class*="col-"] {
+  padding-right: 0;
+  padding-left: 0;
 }

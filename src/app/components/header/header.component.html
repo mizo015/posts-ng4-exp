@@ -4,10 +4,10 @@
   		<h1>Welcome to {{appName}}!</h1>
   	</div>
   	<div class="col-6">
-  		<ul>
-  			<li><a routerLink="/" [ngClass]="{'active':  activeRoute === '/'}">Home</a></li>
-  			<li><a routerLink="/zipcodes" [ngClass]="{'active':  activeRoute === '/zipcode'}">Zipcodes</a></li>
-  		</ul>
+  		<div id="nav-links">
+  			<div class="col-1 link"><a routerLink="/" [ngClass]="{'active':  activeRoute === '/'}">Home</a></div>
+  			<div class="col-1 link"><a routerLink="/zipcodes" [ngClass]="{'active':  activeRoute === '/zipcodes'}">Zipcodes</a></div>
+  		</div>
   	</div>
   </div>
 </div>

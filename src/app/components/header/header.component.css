@@ -2,7 +2,6 @@
 	background: #DDD;
 	margin-bottom: 20px;
 }
-
 .row{
 	height: 60px;
 }
@@ -10,4 +9,15 @@ h1{
 	text-align: center;
 	position: relative;
     top: 9%;
+}
+#nav-links .link {
+	float: left;
+	text-align: center;
+}
+#nav-links .link a.active{
+	color:#f0ad4e;
+	border-bottom: 1px solid gray;
+}
+#nav-links .link a:focus{
+	text-decoration: none;
 }
