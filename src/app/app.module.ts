@@ -8,8 +8,11 @@ import { AgmCoreModule } from '@agm/core';
 import { AppComponent } from './app.component';
 import { PostsComponent } from './components/posts/posts.component';
 import { ZipcodesComponent } from './components/zipcodes/zipcodes.component';
-import { PostsService } from './services/posts.service';
 import { HeaderComponent } from './components/header/header.component';
+import { GoogleMapComponent } from './components/google-map/google-map.component';
+
+import { PostsService } from './services/posts.service';
+import { GeoService } from './services/geo.service';
 
 const AppRoutes:Routes = [
   {path:'', component:PostsComponent},
@@ -21,7 +24,8 @@ const AppRoutes:Routes = [
     AppComponent,
     PostsComponent,
     HeaderComponent,
-    ZipcodesComponent
+    ZipcodesComponent,
+    GoogleMapComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +34,7 @@ const AppRoutes:Routes = [
     RouterModule.forRoot(AppRoutes),
     AgmCoreModule.forRoot()
   ],
-  providers: [PostsService],
+  providers: [PostsService, GeoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

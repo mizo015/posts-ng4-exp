@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { PostsService } from '../../services/posts.service';
 
-import { Post } from '../../interface/post';
+import { Post } from '../../interface';
 
 
 @Component({
