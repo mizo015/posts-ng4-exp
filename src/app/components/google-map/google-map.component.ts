@@ -1,8 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import GoogleMapsLoader from 'google-maps'; // only for common js environments 
 import { Renderer2 } from '@angular/core';
 import { Metric, LatLng, ZipcodePolygons, feature } from '../../interface';
-import { API_KEY } from '../../constants/map';
+import { API_KEY, POLYGON_DEFAULT_OPTIONS } from '../../constants/map';
 import { GeoService } from '../../services/geo.service';
 
 import {} from '@types/googlemaps';
@@ -10,14 +10,6 @@ import {} from '@types/googlemaps';
 GoogleMapsLoader.KEY = API_KEY;
 GoogleMapsLoader.LIBRARIES = ['geometry', 'places'];
 
-const POLYGON_DEFAULT_OPTIONS:google.maps.PolygonOptions = {
-    fillOpacity: 0.6,
-    fillColor: 'blue',
-    strokeWeight: 1,
-    strokeColor: 'white',
-    strokeOpacity: 1,
-    clickable: true
-}
 
 @Component({
   selector: 'app-google-map',
@@ -34,7 +26,11 @@ export class GoogleMapComponent implements OnInit {
   map:google.maps.Map;
   options:google.maps.MapOptions;
 
-  constructor(private Renderer:Renderer2, private geoService:GeoService) { }
+  selectedZipcode: Metric|null;
+
+  constructor(private Renderer:Renderer2, private geoService:GeoService, private ref: ChangeDetectorRef) { 
+    this.selectedZipcode = null;
+  }
 
   ngOnInit() {
   	this.options = {center: this.center, zoom: this.zoom};
@@ -51,14 +47,13 @@ export class GoogleMapComponent implements OnInit {
 	    this.geoService.getZipcodePolygons('0'+metric.zipcode)
 	        .subscribe((res:ZipcodePolygons) => {
 	            const feature:feature = this.getFeature(res, metric);
-                const polygon:google.maps.Polygon = this.addPolygonToMap(feature.polygon);
 
-            	polygon.addListener('mouseover', (event) => {
-            		this.polygonMouseOverHandler(event, polygon);
+            	feature.polygon.addListener('mouseover', (event) => {
+            		this.polygonMouseOverHandler(event, feature);
             	});
 
-            	polygon.addListener('mouseout', (event) => {
-            		this.polygonMouseOutHandler(event, polygon);
+            	feature.polygon.addListener('mouseout', (event) => {
+            		this.polygonMouseOutHandler(event, feature);
             	});
 	        }, (err) => {
 	            console.log("Polygons not found, URL: ", err);
@@ -83,10 +78,11 @@ export class GoogleMapComponent implements OnInit {
   }
 
   private getFeature(ZipcodePolygons:ZipcodePolygons, metric:Metric) : feature{
-  	let polygonOptions = Object.assign({}, POLYGON_DEFAULT_OPTIONS, {paths: ZipcodePolygons.bounds});
-  	
+  	const polygonOptions = Object.assign({}, POLYGON_DEFAULT_OPTIONS, {paths: ZipcodePolygons.bounds});
+  	const polygon = this.addPolygonToMap(polygonOptions);
+
   	return {
-	    polygon:polygonOptions,
+	    polygon: polygon,
   		metric: metric,
         type: ZipcodePolygons.type,
         country: ZipcodePolygons.country,
@@ -94,17 +90,21 @@ export class GoogleMapComponent implements OnInit {
   	};
   }
 
-  polygonMouseOverHandler(event, polygon){
-  	polygon.setOptions({
-	    strokeWeight: 3,
-	    strokeColor: '#c4c4c4'
-	});
+  polygonMouseOverHandler = (event, feature:feature) => {
+  	feature.polygon.setOptions({
+	    fillColor: 'yellow'
+  	});
+
+    this.selectedZipcode = feature.metric; 
+    this.ref.detectChanges();
+    console.log(this.selectedZipcode)     
   }
 
-  polygonMouseOutHandler(event, polygon){
-  	polygon.setOptions({
-	    strokeWeight: 1,
-	    strokeColor: 'white'
-	});
+  polygonMouseOutHandler(event, feature:feature){
+  	feature.polygon.setOptions({
+	    fillColor: 'blue'
+	  });
+
+    this.selectedZipcode = null;
   }
 }

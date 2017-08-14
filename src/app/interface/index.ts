@@ -32,7 +32,7 @@ export interface ZipcodePolygons {
 }
 
 export interface feature {
-	polygon:google.maps.PolygonOptions,
+	polygon:google.maps.Polygon,
 	metric:Metric,
 	type:string,
 	country?:string,

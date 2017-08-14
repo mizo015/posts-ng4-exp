@@ -1,0 +1,14 @@
+#selectedZipTable{
+	position: absolute;
+	left: 10px;
+	top:120px;
+	z-index: 99999;
+}
+
+#selectedZipTable thead{
+	background: gray;
+	/*border-bottom: white solid 1px;*/
+}
+#selectedZipTable tbody{
+	background-color: white;
+}

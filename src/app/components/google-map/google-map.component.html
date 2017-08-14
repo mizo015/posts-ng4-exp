@@ -1,1 +1,17 @@
+<div class="col-xs-3" id="selectedZipTable" *ngIf="selectedZipcode">
+	<table class="table small">
+		<thead class="thead-inverse">
+			<tr>
+				<th scope="row">Zipcode</th>
+				<th>Population</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td scope="row">{{selectedZipcode.zipcode}}</td>
+				<td>{{selectedZipcode.value}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
 <div class="mapContainer"></div>
