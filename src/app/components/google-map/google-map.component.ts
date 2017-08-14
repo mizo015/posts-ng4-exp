@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import GoogleMapsLoader from 'google-maps'; // only for common js environments 
 import { Renderer2 } from '@angular/core';
+import { NgModel } from '@angular/forms';
 import { Metric, LatLng, ZipcodePolygons, feature } from '../../interface';
 import { API_KEY, POLYGON_DEFAULT_OPTIONS } from '../../constants/map';
 import { GeoService } from '../../services/geo.service';
@@ -25,6 +26,7 @@ export class GoogleMapComponent implements OnInit {
   mapContianerEl: Element;
   map:google.maps.Map;
   options:google.maps.MapOptions;
+  zipcodeSearchModel:string;
 
   selectedZipcode: Metric|null;
 
@@ -90,7 +92,7 @@ export class GoogleMapComponent implements OnInit {
   	};
   }
 
-  polygonMouseOverHandler = (event, feature:feature) => {
+  private polygonMouseOverHandler = (event, feature:feature) => {
   	feature.polygon.setOptions({
 	    fillColor: 'yellow'
   	});
@@ -100,7 +102,7 @@ export class GoogleMapComponent implements OnInit {
     console.log(this.selectedZipcode)     
   }
 
-  polygonMouseOutHandler(event, feature:feature){
+  private polygonMouseOutHandler(event, feature:feature){
   	feature.polygon.setOptions({
 	    fillColor: 'blue'
 	  });
