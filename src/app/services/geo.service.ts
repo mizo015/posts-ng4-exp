@@ -11,7 +11,7 @@ export class GeoService {
   	console.log('geo service here!!')
   }
 
-  getZipcodePolygons(zipcode){
+  getZipcodePolygons(zipcode:string){
   	return this.http.get(`${POLYGON_BASE_URL}/${zipcode}.json`)
   		.map(res => res.json());
   }

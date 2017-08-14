@@ -4,6 +4,7 @@ import { Renderer2 } from '@angular/core';
 import { Metric, LatLng, ZipcodePolygons, feature } from '../../interface';
 import { API_KEY, POLYGON_DEFAULT_OPTIONS } from '../../constants/map';
 import { GeoService } from '../../services/geo.service';
+import { getZipcodeFileName } from '../../modules/utils';
 
 import {} from '@types/googlemaps';
 
@@ -44,7 +45,7 @@ export class GoogleMapComponent implements OnInit {
 
   private mapMetrics(){
   	this.metrics.forEach((metric:Metric) => {
-	    this.geoService.getZipcodePolygons('0'+metric.zipcode)
+	    this.geoService.getZipcodePolygons(getZipcodeFileName(metric.zipcode))
 	        .subscribe((res:ZipcodePolygons) => {
 	            const feature:feature = this.getFeature(res, metric);
 

@@ -18,9 +18,6 @@ export class ZipcodesComponent implements OnInit {
       { zipcode: 8817, value: 10},
       { zipcode: 8816, value: 10},
       { zipcode: 8820, value: 10},
-      { zipcode: 8843, value: 10},
-      { zipcode: 8842, value: 10},
-      { zipcode: 8841, value: 10},
       { zipcode: 8840, value: 10},
       { zipcode: 8821, value: 10},
       { zipcode: 8822, value: 10},
@@ -39,7 +36,6 @@ export class ZipcodesComponent implements OnInit {
       { zipcode: 8829, value: 70},
       { zipcode: 8831, value: 70},
       { zipcode: 8832, value: 70},
-      { zipcode: 8834, value: 70},
       { zipcode: 8835, value: 70},
     ]
   }
