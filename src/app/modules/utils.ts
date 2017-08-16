@@ -8,3 +8,8 @@ export const getZipcodeFileName = (zipcode:number) : string => {
 			return String(zipcode);
 	}
 }
+
+export const isValidZipcode = (zipcode): Boolean =>{
+	const zipRegex = /\b[0-9]{5}(?:-[0-9]{4})?\b/;
+	return zipRegex.test(zipcode);
+}

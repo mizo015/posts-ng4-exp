@@ -1,14 +1,28 @@
-#selectedZipTable{
+
+table{
+    width: auto;
 	position: absolute;
-	left: 10px;
-	top:120px;
 	z-index: 99999;
 }
 
-#selectedZipTable thead{
+table thead{
 	background: gray;
 	/*border-bottom: white solid 1px;*/
 }
-#selectedZipTable tbody{
+table tbody{
 	background-color: white;
+}
+
+#selectedZipTable{
+	right: 10px;
+	top:105px;
+}
+
+#dataTable{
+    max-height: 400px;
+    position: absolute;
+    overflow: scroll;
+    display: grid;
+    top: 105px;
+    left: 10px;
 }

@@ -1,13 +1,12 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, Renderer2 } from '@angular/core';
 import GoogleMapsLoader from 'google-maps'; // only for common js environments 
-import { Renderer2 } from '@angular/core';
-import { NgModel } from '@angular/forms';
 import { Metric, LatLng, ZipcodePolygons, feature } from '../../interface';
 import { API_KEY, POLYGON_DEFAULT_OPTIONS } from '../../constants/map';
 import { GeoService } from '../../services/geo.service';
-import { getZipcodeFileName } from '../../modules/utils';
+import { getZipcodeFileName, isValidZipcode } from '../../modules/utils';
 
 import {} from '@types/googlemaps';
+import { Observable } from 'rxjs';
 
 GoogleMapsLoader.KEY = API_KEY;
 GoogleMapsLoader.LIBRARIES = ['geometry', 'places'];
@@ -25,9 +24,9 @@ export class GoogleMapComponent implements OnInit {
   @Input() metrics: Metric[];
 
   mapContianerEl: Element;
+  zipcodeSearchEl: Element;
   map:google.maps.Map;
   options:google.maps.MapOptions;
-  zipcodeSearchModel:string;
 
   selectedZipcode: Metric|null;
 
@@ -38,29 +37,51 @@ export class GoogleMapComponent implements OnInit {
   ngOnInit() {
   	this.options = {center: this.center, zoom: this.zoom};
   	this.mapContianerEl = this.Renderer.selectRootElement('.mapContainer');
+  	this.zipcodeSearchEl = this.Renderer.selectRootElement('#zipcodeSearchEl');
   	this.Renderer.setStyle(this.mapContianerEl, 'height', this.height);
 
   	GoogleMapsLoader.load((google) => {
   		this.initMap(google);
-  	}, this);
+  	});
+
+  	Observable.fromEvent(this.zipcodeSearchEl, 'input')
+  		.map((event:any) => { 
+  			return event.currentTarget.value; 
+  		})
+  		.filter((inputValue:string) => { 
+  			return inputValue.length > 3; 
+  		})
+  		.subscribe(event => {
+  			this.zipcodeSearchHandler(event);
+  		});
+
   }
 
   private mapMetrics(){
   	this.metrics.forEach((metric:Metric) => {
-	    this.geoService.getZipcodePolygons(getZipcodeFileName(metric.zipcode))
-	        .subscribe((res:ZipcodePolygons) => {
-	            const feature:feature = this.getFeature(res, metric);
+	    this.addZipcodeToMap(metric);
+	});
+  }
 
-            	feature.polygon.addListener('mouseover', (event) => {
-            		this.polygonMouseOverHandler(event, feature);
-            	});
+  private addZipcodeToMap(metric:Metric){
+  	this.geoService.getZipcodePolygons(getZipcodeFileName(metric.zipcode))
+        .subscribe((res:ZipcodePolygons) => {
+        	this.mapZipcode(res, metric)
+        },
+        err => {
+        	console.log(err);
+        });
+  }
 
-            	feature.polygon.addListener('mouseout', (event) => {
-            		this.polygonMouseOutHandler(event, feature);
-            	});
-	        }, (err) => {
-	            console.log("Polygons not found, URL: ", err);
-	        });
+  private mapZipcode(res:ZipcodePolygons, metric:Metric){
+	const feature:feature = this.getFeature(res, metric);
+
+	feature.polygon.addListener('mouseover', (event) => {
+	  this.polygonMouseOverHandler(event, feature);
+	});
+
+	feature.polygon.addListener('mouseout', (event) => {
+	  this.polygonMouseOutHandler(event, feature);
 	});
   }
 
@@ -93,7 +114,7 @@ export class GoogleMapComponent implements OnInit {
   	};
   }
 
-  private polygonMouseOverHandler = (event, feature:feature) => {
+  private polygonMouseOverHandler = (event:Event, feature:feature) => {
   	feature.polygon.setOptions({
 	    fillColor: 'yellow'
   	});
@@ -103,11 +124,26 @@ export class GoogleMapComponent implements OnInit {
     console.log(this.selectedZipcode)     
   }
 
-  private polygonMouseOutHandler(event, feature:feature){
+  private polygonMouseOutHandler(event:Event, feature:feature){
   	feature.polygon.setOptions({
 	    fillColor: 'blue'
-	  });
+  	});
 
     this.selectedZipcode = null;
+    this.ref.detectChanges();
+  }
+
+  private zipcodeSearchHandler(zipcode:string){
+  	console.log(zipcode);
+  	if(isValidZipcode(zipcode)){
+  		const randomValue = Math.floor(Math.random() * 100);
+  		const metric = {zipcode: Number(zipcode), value: randomValue};
+  		
+  		this.metrics.push(metric);
+
+  		this.addZipcodeToMap(metric);
+  	}else{
+  		//update view
+  	}
   }
 }

@@ -32,7 +32,7 @@ const AppRoutes:Routes = [
     HttpModule,
     NgbModule.forRoot(),
     RouterModule.forRoot(AppRoutes),
-    AgmCoreModule.forRoot()
+    AgmCoreModule.forRoot(),
   ],
   providers: [PostsService, GeoService],
   bootstrap: [AppComponent]

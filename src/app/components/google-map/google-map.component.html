@@ -1,18 +1,30 @@
-<input type="text" name="zipcodeSearchModel" [(ngModel)]="zipcodeSearchModel" placeholder="Type U.S Zipcode" />
-<div class="col-xs-3" id="selectedZipTable" *ngIf="selectedZipcode">
-	<table class="table small">
-		<thead class="thead-inverse">
-			<tr>
-				<th scope="row">Zipcode</th>
-				<th>Population</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td scope="row">{{selectedZipcode.zipcode}}</td>
-				<td>{{selectedZipcode.value}}</td>
-			</tr>
-		</tbody>
-	</table>
-</div>
+<input type="number" name="zipcodeSearchEl" id="zipcodeSearchEl" class="form-control" placeholder="Type U.S Zipcode" />
+<table class="table small" id="selectedZipTable" *ngIf="selectedZipcode">
+	<thead class="thead-inverse">
+		<tr>
+			<th scope="row">Zipcode</th>
+			<th>Population</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td scope="row">{{selectedZipcode.zipcode}}</td>
+			<td>{{selectedZipcode.value}}</td>
+		</tr>
+	</tbody>
+</table>
+<table class="table small" id="dataTable">
+	<thead class="thead-inverse">
+		<tr>
+			<th scope="row">Zipcode</th>
+			<th>Population</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let metric of metrics">
+			<td scope="row">{{metric.zipcode}}</td>
+			<td>{{metric.value}}</td>
+		</tr>
+	</tbody>
+</table>
 <div class="mapContainer"></div>
